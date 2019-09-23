@@ -1,13 +1,14 @@
 img = imread('lena.png');
+img = rgb2gray(img);
 %tamanho da janela(Kernel)
-window = 8;
+window = 3;
 kernel = ones(window, window);
 
 %imshow(img);
 
 iNoiseUm = imnoise(img, 'salt & pepper',0.02);
 iNoiseDois = imnoise(img, 'salt & pepper',0.05);
-imshow([iNoiseUm,iNoiseDois]);
+%imshow([iNoiseUm,iNoiseDois]);
 
 %tenho que percorrer a imagem 8 em * pixels na
 %horizontal e na vertical
@@ -17,15 +18,19 @@ for i = 1: window: 512
     %kernel * img(i i+8,
     for j = 1:window: 512
         %tenho q calcular a media
-        part = img(i : i+(window-1), j : j+(window-1));
+        if(((i+window)< 512) && ((j+window)<512))
+            part = iNoiseUm(i : i+(window-1), j : j+(window-1));
+            media = cancMediaJanela(part,window);
+            mediana = median(part(:));
+            iNoiseUm(i : i+(window-1), j : j+(window-1))  = media;
+            iNoiseUm(i : i+(window-1), j : j+(window-1))  = mediana;
         
-        media = cancMediaJanela(part,window);
-        
+        end
     %percorre na horizonal
     end
 end
-disp(media)
-
+%disp(media);
+imshow(iNoiseUm);
 
 function y = cancMediaJanela(window,sizeWindow)
 sum = int64(0);
@@ -37,7 +42,7 @@ for i=1:sizeWindow
     end
 
 end
-y = sum/(sizeWindow^2);
+y = uint8(sum/(sizeWindow^2));
 
 end
 
