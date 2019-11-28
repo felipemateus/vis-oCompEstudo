@@ -1,4 +1,3 @@
-# vis-oCompEstudo
 
 ## Resultados:
 ### Video 1:
