@@ -1,6 +1,6 @@
 # vis-oCompEstudo
 
-## Instalação da Dependências:
+## Instalação das Dependências:
 
 - Crie um ambiente virtual com python3:
   `virtualenv -p python3 myenv`
